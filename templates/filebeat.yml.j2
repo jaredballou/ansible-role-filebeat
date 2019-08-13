@@ -1,7 +1,4 @@
-filebeat:
-  # List of prospectors to fetch data.
-  prospectors:
-    {{ filebeat_prospectors | to_json }}
+filebeat.inputs: {{ filebeat_inputs | to_json }}
 
 # Configure what outputs to use when sending the data collected by the beat.
 # Multiple outputs may be used.
@@ -15,8 +12,12 @@ output:
 
     # Optional protocol and basic auth credentials. These are deprecated.
     #protocol: "https"
-    #username: "admin"
-    #password: "s3cr3t"
+{% if filebeat_output_elasticsearch_username %}
+    username: "{{ filebeat_output_elasticsearch_username }}"
+{% endif %}
+{% if filebeat_output_elasticsearch_username %}
+    password: "{{ filebeat_output_elasticsearch_password }}"
+{% endif %}
 
     # Number of workers per Elasticsearch host.
     #worker: 1
